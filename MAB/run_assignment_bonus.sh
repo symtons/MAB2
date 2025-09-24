@@ -7,7 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
-OUT_DIR="${ROOT_DIR}/plots_assignment_bonus"
+OUT_DIR="${ROOT_DIR}/MAB2/MAB/plots_assignment_bonus"
 mkdir -p "$OUT_DIR"
 
 echo "== Activating venv in ${SCRIPT_DIR} (if present) =="

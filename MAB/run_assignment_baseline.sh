@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 # Outputs at repo root
-OUT_DIR="${ROOT_DIR}/plots_assignment"
+OUT_DIR="${ROOT_DIR}/MAB2/MAB/plots_assignment"
 mkdir -p "$OUT_DIR"
 
 echo "== Activating venv in ${SCRIPT_DIR} (if present) =="
