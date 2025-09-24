@@ -1,0 +1,2 @@
+[console_scripts]
+mab-student = MAB.experiments:main

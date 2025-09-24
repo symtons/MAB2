@@ -1,0 +1,2 @@
+algo,k,T,runs,seed,epsilon,step_size,c,nonstationary,sigma,final_mean_reward,final_%_optimal,final_cumulative_regret
+epsilon,10,1000,200,0,0.1,,,False,0.1,0.88,77.5,67.9256700477665
