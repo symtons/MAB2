@@ -67,7 +67,7 @@ class KArmedBanditEnv(BaseEnv):
         self.action_space = spaces.Discrete(self.k)
         self.observation_space = spaces.Discrete(1)
 
-        # Internal state (true per-arm probabilities)
+        
         self.p: Optional[np.ndarray] = None
 
     
@@ -82,14 +82,14 @@ class KArmedBanditEnv(BaseEnv):
         - Sample ``self.p ~ Uniform(0,1)^k`` (NumPy: ``self._rng.uniform``) and store it.
         - Return ``(0, {})``.
         """
-    # If seed is provided, reseed the RNG for reproducibility
+    
         if seed is not None:
             self._rng = np.random.default_rng(seed)
     
-    # Sample self.p ~ Uniform(0,1)^k (one probability per arm)
+    
         self.p = self._rng.uniform(0.0, 1.0, size=self.k)
     
-    # Return dummy observation and empty info dict
+   
         return 0, {}
     
     
@@ -104,27 +104,26 @@ class KArmedBanditEnv(BaseEnv):
         - Compute ``optimal = 1`` if ``action`` equals ``argmax(self.p)``, else ``0``.
         - Return ``(0, r, False, False, {"p": self.p.copy(), "optimal": optimal})``.
         """
-    # Handle non-stationary case (bonus): add Gaussian noise to probabilities
+    
         if self.nonstationary:
-            # Apply Gaussian noise with std self.sigma and clip to [0,1]
+           
             noise = self._rng.normal(0.0, self.sigma, size=self.k)
             self.p = np.clip(self.p + noise, 0.0, 1.0)
         
-        # Sample Bernoulli reward: r ~ Bernoulli(p[action])
-        # This gives reward=1 with probability p[action], else reward=0
+     
         reward = 1 if self._rng.random() < self.p[action] else 0
         
-        # Check if this action was optimal (highest probability)
+        # highest probability
         optimal_action = np.argmax(self.p)
         optimal = 1 if action == optimal_action else 0
         
-        # Prepare info dictionary
+        
         info = {
-            "p": self.p.copy(),  # Current arm probabilities
-            "optimal": optimal   # Whether action was optimal
+            "p": self.p.copy(),  
+            "optimal": optimal   
         }
         
-        # Return: (observation, reward, terminated, truncated, info)
+        
         return 0, reward, False, False, info
-    def render(self) -> None:  # pragma: no cover - not required
+    def render(self) -> None: 
         return None

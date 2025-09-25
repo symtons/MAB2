@@ -131,7 +131,7 @@ class EpsilonGreedyAgent(Agent):
         if self.rng.random() < self.epsilon:
             return self.rng.integers(0, self.k)
     
-        # Otherwise: return greedy action with uniform tie-breaking
+        
         return random_argmax(self.Q, self.rng)
 
     def update(self, a: int, r: float) -> None:
@@ -146,15 +146,15 @@ class EpsilonGreedyAgent(Agent):
         - If use_sample_average and step_size is None: Q[a] += (1/N[a]) * (r - Q[a]).
         - Else: Q[a] += step_size * (r - Q[a]).
         """
-        # Increment the visit count for this action
+        # Increment 
         self.N[a] += 1
     
-    # Update Q-value based on the update rule
+    
         if self.use_sample_average and self.step_size is None:
-        # Sample-average update: Q[a] += (1/N[a]) * (r - Q[a])
+       # Q[a] += (1/N[a]) * (r - Q[a])
             self.Q[a] += (1.0 / self.N[a]) * (r - self.Q[a])
         else:
-        # Constant step-size update: Q[a] += step_size * (r - Q[a])
+        #  Q[a] += step_size * (r - Q[a])
             self.Q[a] += self.step_size * (r - self.Q[a])
 
 
@@ -193,11 +193,11 @@ class UCBAgent(Agent):
             # Select the first unpulled arm (or could randomize among them)
             return unpulled[0]
         
-        # All arms have been pulled at least once - compute UCB scores
-        # UCB formula: Q[a] + c * sqrt(ln(t) / N[a])
+        
+        #  Q[a] + c * sqrt(ln(t) / N[a])
         ucb_scores = self.Q + self.c * np.sqrt(np.log(t) / self.N)
         
-        # Return action with highest UCB score (with tie-breaking)
+        
         return random_argmax(ucb_scores, self.rng)
 
     def update(self, a: int, r: float) -> None:
@@ -211,10 +211,10 @@ class UCBAgent(Agent):
         - Increment ``N[a]``.
         - Update ``Q[a] += (1/N[a]) * (r - Q[a])``.
         """
-        # Increment the visit count for this action
+        # Increment 
         self.N[a] += 1
     
-        # Update Q-value using sample-average rule: Q[a] += (1/N[a]) * (r - Q[a])
+        #  Q[a] += (1/N[a]) * (r - Q[a])
         self.Q[a] += (1.0 / self.N[a]) * (r - self.Q[a])
 
 
@@ -262,11 +262,10 @@ class ThompsonSamplingAgent(Agent):
         TODO:
         - For each arm ``a``, sample ``theta[a] ~ Beta(alpha[a], beta[a])`` and return a tie-broken argmax.
         """
-        # Sample theta from Beta distribution for each arm
-        # Beta(alpha[a], beta[a]) represents our belief about arm a's success probability
+        
         sampled_thetas = self.rng.beta(self.alpha, self.beta)
         
-        # Select the arm with the highest sampled theta value (with tie-breaking)
+        
         return random_argmax(sampled_thetas, self.rng)
 
     def update(self, a: int, r: float) -> None:
@@ -280,8 +279,8 @@ class ThompsonSamplingAgent(Agent):
         - ``alpha[a] += r`` and ``beta[a] += (1 - r)``.
         """
         if r == 1:
-        # Success: increment alpha (number of successes)
+        
             self.alpha[a] += 1
         else:
-        # Failure: increment beta (number of failures)
+        
             self.beta[a] += 1
